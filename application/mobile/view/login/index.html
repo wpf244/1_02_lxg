@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+{include file="public:header"}
+
+<body>
+
+  <div class="member_change">
+    <form action="{:url('Login/check')}" method="post" id="logoForm">
+      <div class="member_password">
+        <input type="tel" class="member_ipt am-text-left am-text-sm" name="phone" placeholder="请输入您的手机号" required maxlength="11"
+          onchange="validatemobile(this.value)" />
+      </div>
+      <div class="member_password">
+        <input type="password" class="member_ipt am-text-left am-text-sm" name="pwd" placeholder="请输入您的登录密码" required id="pwd1"
+          onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" />
+        <i class="am-icon-eye-slash member_password_toggle am-text-lg"></i>
+      </div>
+      <button type="submit" class="member_btn am-text-default" id="bangding_btn">立即登录</button>
+      <div class="flex_between am-text-sm padding_percent_3">
+        <a href="{:url('Login/register')}">还没账号？立即注册</a>
+        <a href="{:url('Login/forget')}" class="member_under color_nine">忘记密码</a>
+      </div>
+    </form>
+  </div>
+
+  <script type="text/javascript">
+    $(function () {
+
+      //切换输入密码显示隐藏状态
+      $('.member_change').on('click', '.member_password .member_password_toggle', function () {
+        var _this = $(this)
+        toggleEleType(_this.prev('.member_ipt'), 'type', 'text', 'password', function () {
+          _this.toggleClass('am-icon-eye-slash am-icon-eye')
+        })
+      })
+
+    })
+  </script>
+  <script>
+    $(function () {
+      $('#logoForm').ajaxForm({
+        beforeSubmit: checkForm, // 此方法主要是提交前执行的方法，根据需要设置
+        success: complete, // 这是提交后的方法
+        dataType: 'json'
+      });
+  
+      function checkForm() {
+        
+      }
+  
+      function complete(data) {
+        if (data.code == 1) {
+          layer.alert(data.msg, {
+            icon: 6
+          }, function (index) {
+            layer.close(index);
+            window.location.href = data.url;
+          });
+  
+        } else {
+          layer.alert(data.msg, {
+            icon: 5
+          }, function (index) {
+            layer.close(index);
+            window.location.href = data.url;
+          });
+  
+        }
+      }
+  
+    });
+  </script>
+</body>
+
+</html>

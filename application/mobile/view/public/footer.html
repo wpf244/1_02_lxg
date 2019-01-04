@@ -1,0 +1,28 @@
+<div data-am-widget="navbar" class="am-navbar am-cf am-navbar-default" id="">
+    <ul class="am-navbar-nav am-cf am-avg-sm-4">
+      <li>
+        <a href="{:url('Index/index')}" {if condition="CONTROLLER_NAME eq 'Index'"}  class="active" {/if} >
+          <i class="iconfont icon-index"></i>
+          <span class="am-navbar-label">首页</span>
+        </a>
+      </li>
+      <li>
+        <a href="kind.html" {if condition="CONTROLLER_NAME eq 'Kind'"}  class="active" {/if} >
+          <i class="iconfont icon-leimupinleifenleileibie"></i>
+          <span class="am-navbar-label">分类</span>
+        </a>
+      </li>
+      <li>
+        <a href="cart.html" {if condition="CONTROLLER_NAME eq 'Goods'"}  class="active" {/if} >
+          <i class="iconfont icon-shoppingcart-over"></i>
+          <span class="am-navbar-label">购物车</span>
+        </a>
+      </li>
+      <li>
+        <a href="member_person.html" {if condition="CONTROLLER_NAME eq 'User'"}  class="active" {/if} >
+          <i class="iconfont icon-gerenzhongxin-xuanzhongxin"></i>
+          <span class="am-navbar-label">会员中心</span>
+        </a>
+      </li>
+    </ul>
+  </div>

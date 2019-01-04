@@ -27,11 +27,25 @@ class Goods extends BaseAdmin{
        
     }
     public function save_type(){
-        $id=input('id');
+        $id=input('type_id');
         if($id){
-            $data['type_name']=input('name');
-            if(!is_string(input('image'))){
-                $data['type_image']=uploads('image');
+            $re=db("type")->where("type_id=$id")->find();
+            $data=input('post.');
+           // var_dump($data);exit;
+            if(!is_string(input('type_image'))){
+                $data['type_image']=uploads('type_image');
+            }else{
+                $data['type_image']=$re['type_image'];
+            }
+            if(!is_string(input('type_adimage'))){
+                $data['type_adimage']=uploads('type_adimage');
+            }else{
+                $data['type_adimage']=$re['type_adimage'];
+            }
+            if(input('type_status')){
+                $data['type_status']=1;
+            }else{
+                $data['type_status']=0;
             }
             $res=$this->model->updateType($id, $data);
             if($res){
@@ -40,9 +54,19 @@ class Goods extends BaseAdmin{
                 $this->error("修改失败");
             }
         }else{
-            $data['type_name']=input('name');
+            
+            $data=input('post.');
+            
             if(!is_string(input('image'))){
                 $data['type_image']=uploads('image');
+            }
+            if(!is_string(input('adimage'))){
+                $data['type_adimage']=uploads('adimage');
+            }
+            if(input('type_status')){
+                $data['type_status']=1;
+            }else{
+                $data['type_status']=0;
             }
             $re=$this->model->addType($data);
             if($re){
@@ -70,6 +94,9 @@ class Goods extends BaseAdmin{
     public function add(){
         $res=db('type')->select();
         $this->assign("res",$res);
+
+        $reb=db("goods_brand")->select();
+        $this->assign("reb",$reb);
         
         return view("add");
     }
@@ -94,6 +121,22 @@ class Goods extends BaseAdmin{
             $this->success("添加成功");
         }else{
             $this->error("添加失败");
+        }
+    }
+    public function change_type(){
+        $id=input('id');
+        $re=db('type')->where("type_id=$id")->find();
+        if($re){
+            if($re['type_status'] == 0){
+                $res=db('type')->where("type_id=$id")->setField("type_status",1);
+            }
+            if($re['type_status'] == 1){
+                $res=db('type')->where("type_id=$id")->setField("type_status",0);
+    
+            }
+            echo '0';
+        }else{
+            echo '1';
         }
     }
     public function changes(){
@@ -210,17 +253,17 @@ class Goods extends BaseAdmin{
     }
     public function sort(){
         $data=input('post.');
-        $lb=db('goods');
+      
         foreach ($data as $id => $sort){
-            $lb->where(array('gid' => $id ))->setField('g_sort' , $sort);
+            db('goods')->where(array('gid' => $id ))->setField('g_sort' , $sort);
         }
         $this->redirect('lister');
     }
     public function sorts(){
         $data=input('post.');
-        $lb=db('type');
+       
         foreach ($data as $id => $sort){
-            $lb->where(array('type_id' => $id ))->setField('type_sort' , $sort);
+            db('type')->where(array('type_id' => $id ))->setField('type_sort' , $sort);
         }
         $this->redirect('type');
     }
@@ -247,6 +290,7 @@ class Goods extends BaseAdmin{
                 $image->thumb(104,104,\think\Image::THUMB_CENTER)->save(ROOT_PATH.'/public/'.$data['g_images']);
             }else{
                 $data['g_image']=$re['g_image'];
+                $data['g_images']=$re['g_images'];
             }
         
             if(input('g_status')){
@@ -456,15 +500,106 @@ class Goods extends BaseAdmin{
     }
     public function spec_sort(){
         $data=input('post.');
-        $lb=db('goods_spec');
+   
         foreach ($data as $id => $sort){
-            $lb->where(array('sid' => $id ))->setField('s_sort' , $sort);
+            db('goods_spec')->where(array('sid' => $id ))->setField('s_sort' , $sort);
         }
         $this->redirect('lister');
     }
+    public function brand()
+    {
+        $list=db("goods_brand")->order("bsort asc")->paginate(10);
+        $this->assign("list",$list);
+
+        return $this->fetch();
+    }
+    public function save_brand(){
+        $id=input('bid');
+        if($id){
+            $data=input('post.');
+            $re=db('goods_brand')->where("bid=$id")->find();
+            if(!is_string(input('bimage'))){
+                $data['bimage']=uploads("bimage");
+               $data['bthumb']='/public/uploads/thumb/'.uniqid('',true).'.jpg';
+               $image = \think\Image::open(request()->file('bimage'));
+               $image->thumb(70,72,\think\Image::THUMB_CENTER)->save(ROOT_PATH.$data['bthumb']);
+            }else{
+                $data['bimage']=$re['bimage'];
+                $data['bthumb']=$re['bthumb'];
+            }
+            if(input('bstatus')){
+                $data['bstatus']=1;
+            }else{
+                $data['bstatus']=0;
+            }
+            $res=db('goods_brand')->where("bid=$id")->update($data);
+            if($res){
+                $this->success("修改成功！");
+            }else{
+                $this->error("修改失败！");
+            }
+        }else{
+            $data=input('post.');
+            if(!is_string(input('bimage'))){
+                $data['bimage']=uploads("bimage");
+               $data['bthumb']='/public/uploads/thumb/'.uniqid('',true).'.jpg';
+               $image = \think\Image::open(request()->file('bimage'));
+               $image->thumb(70,72,\think\Image::THUMB_CENTER)->save(ROOT_PATH.$data['bthumb']);
+            }
+            if(input('bstatus')){
+                $data['bstatus']=1;
+            }
+            
+            $re=db('goods_brand')->insert($data);
+            if($re){
+                $this->success("添加成功！");
+            }else{
+                $this->error("添加失败！");
+            }
+        }
+         
+    }
+    public function modifyb(){
+        $id=input('id');
+        $re=db('goods_brand')->where("bid=$id")->find();
+        
+        echo json_encode($re);
+    }
+    public function changeb(){
+        $id=input('id');
+        $re=db('goods_brand')->where("bid=$id")->find();
+        if($re){
+            if($re['bstatus'] == 0){
+                $res=db('goods_brand')->where("bid=$id")->setField("bstatus",1);
+            }
+            if($re['bstatus'] == 1){
+                $res=db('goods_brand')->where("bid=$id")->setField("bstatus",0);
     
-    
-    
-    
+            }
+            echo '0';
+        }else{
+            echo '1';
+        }
+    }
+    public function delete_brand(){
+        $id=input('id');
+        $re=db('goods_brand')->where("bid=$id")->find();
+        if($re){
+            $del=db('goods_brand')->where("bid=$id")->delete();
+            $this->redirect('brand');
+        }else{
+            $this->redirect('brand');
+        }
+    }
+    public function brank_sort(){
+        $data=input('post.');
+       
+        foreach ($data as $id => $sort){
+            db('goods_brand')->where(array('bid' => $id ))->setField('bsort' , $sort);
+        }
+        $this->redirect('brand');
+    }
+
+
     
 }

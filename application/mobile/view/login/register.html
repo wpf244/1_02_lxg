@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+{include file="public:header"}
+
+<body>
+
+  <div class="member_change">
+    <form action="{:url('Login/save')}" method="post" id="logoForm">
+      <div class="member_password">
+        <input type="tel" class="member_ipt am-text-left am-text-sm" id="phone" name="phone" value="" placeholder="请输入您的手机号"
+          required maxlength="11" onchange="validatemobile(this.value)" />
+      </div>
+      <div class="member_password">
+        <input type="tel" class="member_ipt am-text-left am-text-sm" name="yzm" maxlength="6" placeholder="输入验证码"
+          required />
+        <input class="member_msg color_main am-text-right am-text-sm" type="button" value="发送验证码" id="btn" />
+      </div>
+      <div class="member_password">
+        <input type="password" class="member_ipt am-text-left am-text-sm" name="pwd" placeholder="请设置您的登录密码" required id="pwd1"
+          onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" />
+        <i class="am-icon-eye-slash member_password_toggle am-text-lg"></i>
+      </div>
+      <div class="member_password">
+        <input type="password" class="member_ipt am-text-left am-text-sm" name="pwds" placeholder="请确认您的登录密码" required id="pwd2"
+          onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" />
+        <i class="am-icon-eye-slash member_password_toggle am-text-lg"></i>
+      </div>
+      <button type="submit" class="member_btn am-text-default" id="bangding_btn">立即注册</button>
+      <div class="am-text-center am-text-sm">
+        <a class="member_login" href="{:url('Login/index')}">已有账号，去登录</a>
+      </div>
+    </form>
+  </div>
+  <script type="text/javascript">
+    $(function () {
+
+      //切换输入密码显示隐藏状态
+      $('.member_change').on('click', '.member_password .member_password_toggle', function () {
+        var _this = $(this)
+        toggleEleType(_this.prev('.member_ipt'), 'type', 'text', 'password', function () {
+          _this.toggleClass('am-icon-eye-slash am-icon-eye')
+        })
+      })
+
+
+
+    })
+  </script>
+  <script>
+    var countdown = 60;
+
+    $("#btn").click(function () {
+      var phone = $("#phone").val();
+      var telReg = !!phone.match(/^(0|86|17951)?(13|15|17|18|14|16|19)[0-9]{9}$/);
+      if (telReg == false) {
+        layer.msg("请输入正确的手机号码!");
+        return false;
+      }
+      $.ajax({
+        type: "POST",
+        url: "{:url('Login/checkphone')}",
+        data: {
+          phone: phone
+        },
+        dataType: "text",
+        success: function (re) {
+          if (re == 1) {
+            layer.msg("该手机号已注册！");
+            return false;
+          } else {
+            layer.msg("验证码已发送，请尽快完成操作！");
+
+            var obj = $("#btn");
+            if (countdown == 0) {
+              obj.attr('disabled', false);
+              //obj.removeattr("disabled"); 
+              obj.val("获取验证码");
+              countdown = 60;
+              return;
+            } else {
+              obj.attr('disabled', true);
+              obj.val("重新发送(" + countdown + ")");
+
+              countdown--;
+            }
+            setTimeout(function () {
+              settime(obj)
+            }, 1000)
+
+          }
+        }
+      });
+    })
+
+    function settime(obj) { //发送验证码倒计时
+      if (countdown == 0) {
+        obj.attr('disabled', false);
+        //obj.removeattr("disabled"); 
+        obj.val("获取验证码");
+        countdown = 60;
+        return;
+      } else {
+        obj.attr('disabled', true);
+        obj.val("重新发送(" + countdown + ")");
+        countdown--;
+      }
+      setTimeout(function () {
+        settime(obj)
+      }, 1000)
+    }
+  </script>
+  <script>
+    $(function () {
+      $('#logoForm').ajaxForm({
+        beforeSubmit: checkForm, // 此方法主要是提交前执行的方法，根据需要设置
+        success: complete, // 这是提交后的方法
+        dataType: 'json'
+      });
+  
+      function checkForm() {
+        var yl = $.trim($("input[name=yzm]").val()).length;
+        if(yl != 6){
+          layer.msg("请输入正确的验证码!");return false;
+        }
+        if($.trim($("input[name=pwd]").val()) != ''){
+          var pwdl = $.trim($("input[name=pwd]").val()).length;;
+          if(pwdl < 6 || pwdl >20){
+            layer.msg("请输入6-20位登录密码!");return false;
+          }
+        }
+        if($.trim($("input[name=pwds]").val()) != $.trim($("input[name=pwd]").val())){
+         
+            layer.msg("两次密码不同!");return false;
+          
+        }
+        
+      }
+  
+      function complete(data) {
+        if (data.code == 1) {
+          layer.alert(data.msg, {
+            icon: 6
+          }, function (index) {
+            layer.close(index);
+            window.location.href = data.url;
+          });
+  
+        } else {
+          layer.alert(data.msg, {
+            icon: 5
+          }, function (index) {
+            layer.close(index);
+            window.location.href = data.url;
+          });
+  
+        }
+      }
+  
+    });
+  </script>
+</body>
+
+</html>

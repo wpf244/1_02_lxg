@@ -58,9 +58,9 @@ class Lb extends BaseAdmin{
            $re=db('lb')->where("id=$id")->find();
            if(!is_string(input('image'))){
                $data['image']=uploads("image");
-               $data['thumb']='uploads/thumb/'.uniqid('',true).'.jpg';
+               $data['thumb']='/public/uploads/thumb/'.uniqid('',true).'.jpg';
                $image = \think\Image::open(request()->file('image'));
-               $image->thumb(414,298,\think\Image::THUMB_CENTER)->save(ROOT_PATH.'/public/'.$data['thumb']);
+               $image->thumb(414,165,\think\Image::THUMB_CENTER)->save(ROOT_PATH.$data['thumb']);
               
            }
            
@@ -113,9 +113,9 @@ class Lb extends BaseAdmin{
     }
     public function sort(){
         $data=input('post.');
-        $lb=db('lb');
+    
         foreach ($data as $id => $sort){
-            $lb->where(array('id' => $id ))->setField('sort' , $sort);
+            db('lb')->where(array('id' => $id ))->setField('sort' , $sort);
         }
         $this->redirect('lister');
     }

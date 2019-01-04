@@ -22,7 +22,7 @@
             <i class="ace-icon fa fa-home home-icon"></i>
             <a href="{:url('Index/index')}">首页</a>
           </li>
-          <li class="active">分类</li>
+          <li class="active">品牌</li>
         </ul><!-- /.breadcrumb -->
 
       </div>
@@ -50,23 +50,25 @@
                   
                   <th>ID</th>
                   <th class="hidden-480">排序</th>
-                  <th>分类名称</th>
-                  <th>分类图标</th>
+                  <th>品牌名称</th>
+                  <th>品牌广告</th>
+                  <th>品牌图标</th>
                   <th>推荐</th>
                   <th style="border-right:#ddd solid 1px;">操作</th>
                 </tr>
                 </thead>
-                <form id="sortForm" action="__URL__/sorts" method="post"> 
+                <form id="sortForm" action="{:url('Goods/brank_sort')}" method="post"> 
                 <tbody>
                 {volist name="list" id="v"}
                 <tr>
                  
-                  <td><span class="badge badge-grey">{$v.type_id}</span></td>
-                  <td class="hidden-480"><input class="input-small" type="number" name="{$v.type_id}" value="{$v.type_sort}"></td>
-                  <td>{$v.type_name}</td>
+                  <td><span class="badge badge-grey">{$v.bid}</span></td>
+                  <td class="hidden-480"><input class="input-small" type="number" name="{$v.bid}" value="{$v.bsort}"></td>
+                  <td>{$v.bname}</td>
+                  <td>{$v.bad}</td>
                    <td class="ace-thumbnails hidden-480">
-                    <li><a href="{$v.type_image}" data-rel="colorbox">
-                      <img width="80" height="80" alt="150x150" src="{$v.type_image}"/>
+                    <li><a href="{$v.bimage}" data-rel="colorbox">
+                      <img width="80" height="80" alt="150x150" src="{$v.bimage}"/>
                       <div class="text">
                         <div class="inner">点击放大</div>
                       </div>
@@ -74,15 +76,15 @@
                   </td>
                   <td>
                     <label>
-                      <input class="ace ace-switch ace-switch-6" onclick="change({$v.type_id})" type="checkbox" {if condition="$v.type_status eq 1" }checked{/if} />
+                      <input class="ace ace-switch ace-switch-6" onclick="change({$v.bid})" type="checkbox" {if condition="$v.bstatus eq 1" }checked{/if} />
                       <span class="lbl"></span>
                     </label>
                   </td>
                   <td>
-                    <button class="btn btn-xs btn-info" type="button" onclick="ajaxQuery('modify',{$v.type_id},readData)">
+                    <button class="btn btn-xs btn-info" type="button" onclick="ajaxQuery('modifyb',{$v.bid},readData)">
                       <i class="ace-icon fa fa-pencil bigger-120"></i>
                     </button>
-                    <button class="btn btn-xs btn-danger" type="button" onclick="dels({$v.type_id})">
+                    <button class="btn btn-xs btn-danger" type="button" onclick="dels({$v.bid})">
                       <i class="ace-icon fa fa-trash-o bigger-120"></i>
                     </button>
                   </td>
@@ -114,12 +116,19 @@
           <h4 class="modal-title" id="myModalLabel">添加</h4>
         </div>
         <div class="modal-body">
-          <form id="modal-form" class="form-horizontal" action="__URL__/save_type" method="post" enctype="multipart/form-data">
+          <form id="modal-form" class="form-horizontal" action="{:url('Goods/save_brand')}" method="post" enctype="multipart/form-data">
             
             <div class="form-group">
-              <label class="col-sm-2 control-label no-padding-right" for="">分类名称</label>
+              <label class="col-sm-2 control-label no-padding-right" for="">品牌名称</label>
               <div class="col-sm-8">
-                <input id="name" class="form-control" type="text" name="type_name" required>
+                <input id="name" class="form-control" type="text" name="bname" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label no-padding-right" for="">品牌广告</label>
+              <div class="col-sm-8">
+                <input id="ad" class="form-control" type="text" name="bad" required>
               </div>
             </div>
 
@@ -127,29 +136,21 @@
               <label class="col-sm-2 control-label no-padding-right" for="">推荐</label>
               <div class="col-sm-4">
                 <label style="padding-top: 8px">
-                  <input id="statu" name="type_status" class="ace ace-switch ace-switch-6" type="checkbox" checked/>
+                  <input id="statu" name="bstatus" class="ace ace-switch ace-switch-6" type="checkbox" checked/>
                   <span class="lbl"></span>
                 </label>
               </div>
             </div>
             
             <div class="form-group">
-              <label class="col-sm-2 control-label no-padding-right" for="">分类图标</label>
+              <label class="col-sm-2 control-label no-padding-right" for="">品牌图标</label>
               <div class="col-xs-8">
-                <input multiple="" type="file" id="pic" name="type_image" />
+                <input multiple="" type="file" id="pic" name="bimage" />
                 <img src="" id="image" class="img-responsive" />
               </div>
             </div>
-
-            <div class="form-group">
-              <label class="col-sm-2 control-label no-padding-right" for="">分类广告图</label>
-              <div class="col-xs-8">
-                <input multiple="" type="file" id="pics" name="type_adimage" />
-                <img src="" id="adimage" class="img-responsive" />
-              </div>
-            </div>
             
-            <input id="id" name="type_id" type="hidden">
+            <input id="id" name="bid" type="hidden">
             
              <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -187,7 +188,7 @@
   function change(id){
     $.ajax({
       type:"post",
-      url:"{:url('Goods/change_type')}",
+      url:"{:url('Goods/changeb')}",
         data:{id:id},
         datatype:"text",
         success:function(){
@@ -231,9 +232,9 @@ $(function(){
 </script>
 <script type="text/javascript">
 		function dels(id){
-			layer.confirm('你确定删除分类及分类下的产品吗', {icon: 3}, function(index){
+			layer.confirm('你确定删除此品牌吗', {icon: 3}, function(index){
 		    layer.close(index);
-		    window.location.href="__URL__/delete_type/id/"+id;
+		    window.location.href="__URL__/delete_brand/id/"+id;
 		  });
 	    }
 		</script>
@@ -271,38 +272,7 @@ $(function(){
     $(function () {
       $('#pic').ace_file_input({
         style: 'well',
-        btn_choose: '图标',
-        btn_change: null,
-        no_icon: 'ace-icon fa fa-picture-o',
-        droppable: true,
-        thumbnail: 'fit'//large | fit
-        //,icon_remove:null//set null, to hide remove/reset button
-        /**,before_change:function(files, dropped) {
-						//Check an example below
-						//or examples/file-upload.html
-						return true;
-					}*/
-        /**,before_remove : function() {
-						return true;
-					}*/
-        ,
-        preview_error: function (filename, error_code) {
-          //name of the file that failed
-          //error_code values
-          //1 = 'FILE_LOAD_FAILED',
-          //2 = 'IMAGE_LOAD_FAILED',
-          //3 = 'THUMBNAIL_FAILED'
-          //alert(error_code);
-        }
-
-      }).on('change', function (e) {
-    	  console.log(e.target.value)
-        //console.log($(this).data('ace_input_files'));
-        //console.log($(this).data('ace_input_method'));
-      });
-      $('#pics').ace_file_input({
-        style: 'well',
-        btn_choose: '广告图',
+        btn_choose: '图片',
         btn_change: null,
         no_icon: 'ace-icon fa fa-picture-o',
         droppable: true,
@@ -338,12 +308,11 @@ $(function(){
     //向模态框写入数据
     function readData(data) {
       $(".modal-title").text('修改');
-      $("#id").val(data.type_id);
-      $("#name").val(data.type_name);
-      $("#statu").prop("checked", data.type_status);
-  
-      $("#image").attr('src',data.type_image);
-      $("#adimage").attr('src',data.type_adimage);
+      $("#id").val(data.bid);
+      $("#name").val(data.bname);
+      $("#ad").val(data.bad);
+      $("#statu").prop("checked", data.bstatus);
+      $("#image").attr('src',data.bimage);
       $('#add').modal('show');
     }
 
@@ -362,7 +331,6 @@ $(function(){
   $(".modal-title").text('添加');
   $("#desc").text('');
   $("#image").attr('src','');
-  $("#adimage").attr('src','');
 	})
   </script>
 

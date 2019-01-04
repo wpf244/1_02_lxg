@@ -28,12 +28,13 @@ function deleteImg($oldImg){
  * **/
 function uploads($image){
     $file = request()->file("$image");
+  //  var_dump(ROOT_PATH);exit;
     $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads');
     $pa=$info->getSaveName();
     $path=str_replace("\\", "/", $pa);
-    $paths='/uploads/'.$path;
-    $images=\think\Image::open(ROOT_PATH.'/public'.$paths);
-    $images->save(ROOT_PATH.'/public'.$paths,null,60,true);
+    $paths='/public/uploads/'.$path;
+    $images=\think\Image::open(ROOT_PATH.$paths);
+    $images->save(ROOT_PATH.$paths,null,60,true);
 
     return $paths;
 }
@@ -70,7 +71,7 @@ function Post($phone,$code){
     $post_data['userid'] = 10267;
     $post_data['account'] = '游戏';
     $post_data['password'] = '123456';
-    $post_data['content'] = '【霸鹰惠通】您的验证码为'.$code.'，请您在5分钟内完成操作。'; //短信内容需要用urlencode编码下
+    $post_data['content'] = '【刘现国】您的验证码为'.$code.'，请您在5分钟内完成操作。'; //短信内容需要用urlencode编码下
     $post_data['mobile'] = "$phone";
     $post_data['sendtime'] = ''; //不定时发送，值为0，定时发送，输入格式YYYYMMDDHHmmss的日期值
     

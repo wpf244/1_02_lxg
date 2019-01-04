@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+
+{include file="public:header"}
+
+<body>
+
+  <section class="webkit_box">
+
+    <div class="search_box pad_10 color_bg_white">
+      <a class="search_unit index display_block" href="search.html">
+        <i class="search_icon am-icon-search color_nine am-text-default"></i>
+        <span class="search_key color_nine am-text-sm">请输入关键字</span>
+      </a>
+    </div>
+
+    <section class="webkit_content">
+      <div class="index_banner">
+        <div class="am-slider am-slider-default" data-am-flexslider id="demo-slider-0">
+          <ul class="am-slides">
+           {volist name="lb" id="vb"} 
+            <li><img src="{$vb.thumb}" /></li>
+           {/volist}
+          </ul>
+        </div>
+      </div>
+
+      <nav class="index_nav margin_btm_10 padding_percent_3 color_bg_white">
+        <ul class="index_nav_list am-text-center">
+          <li class="index_nav_item">
+            <a href="#">
+              <img src="{$new_icon.image}"
+                width="50" height="50" />
+              <span>新品</span>
+            </a>
+          </li>
+          <li class="index_nav_item">
+            <a href="#">
+              <img src="{$sales_icon.image}"
+                width="50" height="50" />
+              <span>促销</span>
+            </a>
+          </li>
+          <li class="index_nav_item">
+            <a href="order_list.html">
+              <img src="{$order_icon.image}"
+                width="50" height="50" />
+              <span>订单</span>
+            </a>
+          </li>
+          <!-- <li class="index_nav_item">
+            <a href="coupon_list.html">
+              <img src="https://1919-new-bbc-pro.oss-cn-beijing.aliyuncs.com/ecd635f1-244f-49bd-b176-9bdb0080a981.png"
+                width="50" height="50" />
+              <span>优惠券</span>
+            </a>
+          </li> -->
+          <li class="index_nav_item">
+              <a href="kind.html">
+                <img src="{$all_icon.image}"
+                  width="50" height="50" />
+                <span>全部</span>
+              </a>
+            </li>
+        </ul>
+      </nav>
+
+      <div class="notice_box margin_btm_10 flex_normal padding_percent_3">
+        <i class="iconfont icon-notice color_deputy"></i>
+        <div class="flex_1 notice_cont">
+          <div class="bd">
+            <ul>
+             {volist name="notic" id="vn"} 
+              <li><a href="{:url('Index/detail',array('id'=>$vn['id']))}">{$vn.name}</a></li>
+             {/volist}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- <figure class="padding_percent_3 am-text-center margin_btm_10 margin_top_10 color_bg_white">
+        <a href="goods_detail.html">
+          <img src="https://1919-new-bbc-pro.oss-cn-beijing.aliyuncs.com/a4a33e5c-1394-4b62-b00f-72318f46c3e0.jpg" />
+        </a>
+      </figure> -->
+
+      <div class="index_box margin_btm_10">
+        <div class="common_title member_title flex_between padding_percent_3 color_bg_white">
+          <span class="am-text-default">品牌专区</span>
+          <!-- <a href="#" class="display_block common_more am-text-sm color_nine">
+            查看更多<i class="iconfont icon-arrow-right am-text-lg"></i>
+          </a> -->
+        </div>
+
+        <div class="index_brand_list color_bg_white margin_btm_10">
+          <a class="index_brand_item am-text-center" href="shop.html">
+  <figure class="index_brand_thumb">
+    <img src="https://1919-new-bbc-pro.oss-cn-beijing.aliyuncs.com/ebc808b2-6d20-467f-a7fb-214c14198875.jpg" width="72" height="72" />
+  </figure>
+  <p class="index_brand_tit am-text-truncate">洋河旗舰店</p>
+  <p class="index_brand_clas font_size_11 color_nine">大牌精选</p>
+</a> <a class="index_brand_item am-text-center" href="shop.html">
+  <figure class="index_brand_thumb">
+    <img src="https://1919-new-bbc-pro.oss-cn-beijing.aliyuncs.com/ebc808b2-6d20-467f-a7fb-214c14198875.jpg" width="72" height="72" />
+  </figure>
+  <p class="index_brand_tit am-text-truncate">洋河旗舰店</p>
+  <p class="index_brand_clas font_size_11 color_nine">大牌精选</p>
+</a>
+          <a class="index_brand_item am-text-center" href="shop.html">
+  <figure class="index_brand_thumb">
+    <img src="https://1919-new-bbc-pro.oss-cn-beijing.aliyuncs.com/ebc808b2-6d20-467f-a7fb-214c14198875.jpg" width="72" height="72" />
+  </figure>
+  <p class="index_brand_tit am-text-truncate">洋河旗舰店</p>
+  <p class="index_brand_clas font_size_11 color_nine">大牌精选</p>
+</a> <a class="index_brand_item am-text-center" href="shop.html">
+  <figure class="index_brand_thumb">
+    <img src="https://1919-new-bbc-pro.oss-cn-beijing.aliyuncs.com/ebc808b2-6d20-467f-a7fb-214c14198875.jpg" width="72" height="72" />
+  </figure>
+  <p class="index_brand_tit am-text-truncate">洋河旗舰店</p>
+  <p class="index_brand_clas font_size_11 color_nine">大牌精选</p>
+</a>
+          <a class="index_brand_item am-text-center" href="shop.html">
+  <figure class="index_brand_thumb">
+    <img src="https://1919-new-bbc-pro.oss-cn-beijing.aliyuncs.com/ebc808b2-6d20-467f-a7fb-214c14198875.jpg" width="72" height="72" />
+  </figure>
+  <p class="index_brand_tit am-text-truncate">洋河旗舰店</p>
+  <p class="index_brand_clas font_size_11 color_nine">大牌精选</p>
+</a> <a class="index_brand_item am-text-center" href="shop.html">
+  <figure class="index_brand_thumb">
+    <img src="https://1919-new-bbc-pro.oss-cn-beijing.aliyuncs.com/ebc808b2-6d20-467f-a7fb-214c14198875.jpg" width="72" height="72" />
+  </figure>
+  <p class="index_brand_tit am-text-truncate">洋河旗舰店</p>
+  <p class="index_brand_clas font_size_11 color_nine">大牌精选</p>
+</a>
+        </div>
+      </div>
+
+      <div class="index_box color_bg_white margin_btm_10">
+        <div class="common_title member_title flex_between padding_percent_3">
+          <span class="am-text-default">优惠专区</span>
+          </a>
+        </div>
+
+        <div class="index_cheap_box">
+          <div class="index_cheap_top am-cf margin_btm_5">
+            <figure class="index_cheap_thumb">
+              <a href="shop.html">
+                <img src="https://1919-new-bbc-pro.oss-cn-beijing.aliyuncs.com/83ed7dfb-e386-434e-b0ff-35934f93dd9c.jpg" />
+              </a>
+            </figure>
+            <figure class="index_cheap_thumb">
+              <a href="shop.html">
+                <img src="https://1919-new-bbc-pro.oss-cn-beijing.aliyuncs.com/e23f7889-bbe7-43c7-9222-3d9bac4a6a97.jpg" />
+              </a>
+            </figure>
+          </div>
+          <div class="index_cheap_btm am-cf">
+            <figure class="index_cheap_pic">
+              <a href="shop.html">
+                <img src="https://1919-new-bbc-pro.oss-cn-beijing.aliyuncs.com/8b45093e-78b8-4bbf-89b1-0e1a22292889.jpg" />
+              </a>
+            </figure>
+            <figure class="index_cheap_pic">
+              <a href="shop.html">
+                <img src="https://1919-new-bbc-pro.oss-cn-beijing.aliyuncs.com/7f489ec9-8706-4327-832b-3ea5cfae58d1.jpg" />
+              </a>
+            </figure>
+            <figure class="index_cheap_pic">
+              <a href="shop.html">
+                <img src="https://1919-new-bbc-pro.oss-cn-beijing.aliyuncs.com/c76e9f5a-fa7f-4253-848f-20c8f3e6b022.jpg" />
+              </a>
+            </figure>
+            <figure class="index_cheap_pic">
+              <a href="shop.html">
+                <img src="https://1919-new-bbc-pro.oss-cn-beijing.aliyuncs.com/a2c1160f-1a4f-45d6-8356-25bdf5f0ff90.jpg" />
+              </a>
+            </figure>
+          </div>
+        </div>
+      </div>
+
+      <div class="index_box margin_btm_10">
+        <div class="common_title member_title flex_between padding_percent_3 color_bg_white">
+          <span class="am-text-default">热卖商品</span>
+          </a>
+        </div>
+        <ul class="common_goods_list am-cf margin_top_10">
+          <li class="common_goods_item">
+            <a class="goods_pic bg_cover pad_top_percent_100"  href="goods_detail.html" style="background-image: url('https://1919-new-bbc-pro.oss-cn-beijing.aliyuncs.com/f3f5df0f-d7e0-4fca-a087-3b1c01d056eb');">
+  <figure>
+    <p class="goods_gold">
+      可获得佣金￥0.44
+    </p>
+  </figure>
+</a>
+<div class="goods_wrap">
+  <a href="goods_detail.html" class="goods_title am-text-sm margin_btm_5">
+    <span class="margin_right_4 font_size_11">自营</span>50度一品杜康鉴品酒500ml
+  </a>
+  <p class="goods_price">
+    <b class="font_size_13 color_deputy">￥</b>
+    <strong class="font_size_15 color_deputy">188.30</strong>
+    <a class="am-fr font_size_13">购买</a>
+  </p>
+</div>
+          </li>
+          <li class="common_goods_item">
+            <a class="goods_pic bg_cover pad_top_percent_100"  href="goods_detail.html" style="background-image: url('https://1919-new-bbc-pro.oss-cn-beijing.aliyuncs.com/f3f5df0f-d7e0-4fca-a087-3b1c01d056eb');">
+  <figure>
+    <p class="goods_gold">
+      可获得佣金￥0.44
+    </p>
+  </figure>
+</a>
+<div class="goods_wrap">
+  <a href="goods_detail.html" class="goods_title am-text-sm margin_btm_5">
+    <span class="margin_right_4 font_size_11">自营</span>50度一品杜康鉴品酒500ml
+  </a>
+  <p class="goods_price">
+    <b class="font_size_13 color_deputy">￥</b>
+    <strong class="font_size_15 color_deputy">188.30</strong>
+    <a class="am-fr font_size_13">购买</a>
+  </p>
+</div>
+          </li>
+          <li class="common_goods_item">
+            <a class="goods_pic bg_cover pad_top_percent_100"  href="goods_detail.html" style="background-image: url('https://1919-new-bbc-pro.oss-cn-beijing.aliyuncs.com/f3f5df0f-d7e0-4fca-a087-3b1c01d056eb');">
+  <figure>
+    <p class="goods_gold">
+      可获得佣金￥0.44
+    </p>
+  </figure>
+</a>
+<div class="goods_wrap">
+  <a href="goods_detail.html" class="goods_title am-text-sm margin_btm_5">
+    <span class="margin_right_4 font_size_11">自营</span>50度一品杜康鉴品酒500ml
+  </a>
+  <p class="goods_price">
+    <b class="font_size_13 color_deputy">￥</b>
+    <strong class="font_size_15 color_deputy">188.30</strong>
+    <a class="am-fr font_size_13">购买</a>
+  </p>
+</div>
+          </li>
+        </ul>
+      </div>
+
+    </section>
+
+  </section>
+
+ {include file="public:footer"}
+
+  <script>
+    jQuery(".notice_cont").slide({
+      mainCell: ".bd ul",
+      autoPlay: true,
+      effect: "leftMarquee",
+      interTime: 50,
+      trigger: "click"
+    });
+  </script>
+
+</body>
+
+</html>
